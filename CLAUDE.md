@@ -65,6 +65,8 @@ bash ~/.claude/skills/artifacts-builder/scripts/init-artifact.sh <nazov>
 
 **pptx** — PowerPoint prezentácie: tvorba, editácia, layouts, speaker notes
 
+**pwa** — Progressive Web App pre Vite+React stack. `vite-plugin-pwa` + Workbox. Inštalácia na plochu, offline mode, push notifikácie (iOS Safari 16.4+). Pre e-shopy → lepšie ako App Store (žiadny 30% cut). Kompletný guide + Workbox stratégie v SKILL.md
+
 ### Agents
 Dostupné v `~/.claude/agents/` — volaj ich cez Agent tool:
 - **code-reviewer** — code review (git diff → prioritný feedback)
