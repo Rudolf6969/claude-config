@@ -1,0 +1,21 @@
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node ~/.claude/gsd-context-monitor.js"
+          }
+        ]
+      }
+    ]
+  },
+  "statusLine": {
+    "type": "command",
+    "command": "node ~/.claude/gsd-statusline.js"
+  },
+  "skipDangerousModePermissionPrompt": true,
+  "model": "sonnet"
+}

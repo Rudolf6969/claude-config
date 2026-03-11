@@ -1,7 +1,6 @@
 # Credentials & sensitive
 .credentials.json
 *.json.backup*
-settings.json
 settings.local.json
 
 # Runtime / cache

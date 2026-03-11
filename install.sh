@@ -32,6 +32,12 @@ echo "✓ get-shit-done (GSD framework)"
 cp -r "$REPO_DIR/skills/." "$CLAUDE_DIR/skills/"
 echo "✓ skills ($(ls $REPO_DIR/skills | wc -l) skills)"
 
+# Hooks & settings
+cp "$REPO_DIR/gsd-context-monitor.js" "$CLAUDE_DIR/"
+cp "$REPO_DIR/gsd-statusline.js" "$CLAUDE_DIR/"
+cp "$REPO_DIR/settings.json" "$CLAUDE_DIR/"
+echo "✓ hooks + settings.json"
+
 # Install web-fetch deps
 if command -v bun &>/dev/null && [ -f "$CLAUDE_DIR/skills/web-fetch/fetch.ts" ]; then
   echo "Installing web-fetch dependencies..."
