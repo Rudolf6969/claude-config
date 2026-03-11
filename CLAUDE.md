@@ -67,6 +67,20 @@ bash ~/.claude/skills/artifacts-builder/scripts/init-artifact.sh <nazov>
 
 **pwa** — Progressive Web App pre Vite+React stack. `vite-plugin-pwa` + Workbox + **PWABuilder** (Microsoft). Deploy PWA → pwabuilder.com → Google Play (TWA) + iOS App Store (WKWebView) + Windows Store. Updates automatické cez web server. Kompletný guide v SKILL.md
 
+**n8n-workflow-patterns** — 5 core n8n patterns: Webhook Processing, HTTP API Integration, Database Operations, AI Agent Workflow, Scheduled Tasks. Architektúra + pattern selection guide.
+
+**n8n-node-configuration** — Operation-aware node config. Resource+operation určuje required fields. HTTP Request, Slack, Gmail, Postgres, IF, Switch, Loop — všetky node typy.
+
+**n8n-code-javascript** — JavaScript v n8n Code node. `$input`, `$json`, `$node`, helper funkcie, async/await, error handling.
+
+**n8n-code-python** — Python v n8n Code node. Rovnaké API ako JS verzia.
+
+**n8n-expression-syntax** — n8n expression syntax. `{{ $json.field }}`, `{{ $node["Name"].json }}`, `{{ $now }}`, JMESPath, built-in funkcie.
+
+**n8n-validation-expert** — Validácia a error handling v n8n. IF node conditions, Try/Catch, Stop and Error, input validation patterns.
+
+**n8n-mcp-tools-expert** — n8n MCP (Model Context Protocol) integrácia. AI agenty s nástrojmi cez MCP servery.
+
 **webhook-handler-patterns** — Production webhook best practices (Hookdeck). Verify → Parse → Handle idempotently. Response kódy, retry logic, idempotency checklist, framework guides (Express, Next.js, FastAPI). Použi pri každom webhook handleri.
 
 **stripe-webhooks** — Stripe webhook handler. Signature verification (raw body!), event types (payment_intent.succeeded, subscription, invoice), Express + Next.js + FastAPI príklady.
