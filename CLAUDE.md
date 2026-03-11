@@ -67,6 +67,8 @@ bash ~/.claude/skills/artifacts-builder/scripts/init-artifact.sh <nazov>
 
 **pwa** — Progressive Web App pre Vite+React stack. `vite-plugin-pwa` + Workbox + **PWABuilder** (Microsoft). Deploy PWA → pwabuilder.com → Google Play (TWA) + iOS App Store (WKWebView) + Windows Store. Updates automatické cez web server. Kompletný guide v SKILL.md
 
+**supabase-postgres-best-practices** — Supabase/Postgres best practices (v1.1.0, jan 2026). 35 pravidiel v 8 kategóriách: query performance (indexy, N+1, pagination), connection pooling, RLS security, schema design, locking, monitoring (EXPLAIN ANALYZE, pg_stat_statements). Použi pri každom Supabase/Postgres kóde automaticky.
+
 **capacitor-plugins** — Katalóg 80+ Capgo Capacitor pluginov. Použiť keď PWA nestačí a treba natívne API. Pokrýva: biometria, camera, platby (Apple/Google Pay, IAP), BLE, NFC, HealthKit, live updates (OTA), social login, sensors, SQLite, background geolocation, speech, LLM on-device, Apple Watch, a ďalšie.
 
 ### Agents
