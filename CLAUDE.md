@@ -87,7 +87,15 @@ bash ~/.claude/skills/artifacts-builder/scripts/init-artifact.sh <nazov>
 
 **stripe-webhooks** — Stripe webhook handler. Signature verification (raw body!), event types (payment_intent.succeeded, subscription, invoice), Express + Next.js + FastAPI príklady.
 
-**resend-webhooks** — Resend email webhooky. Email delivery events (delivered, bounced, complained).
+**resend-send-email** — Posielanie emailov cez Resend. Single + batch (max 100/request), idempotency keys, retry stratégia, rate limit 2req/s. React email templates. Pre: order confirmation, welcome, password reset.
+
+**resend-inbound** — Príjem emailov cez Resend. MX record alebo `.resend.app` doména, `email.received` webhook, retrieve body + attachments cez API.
+
+**agent-email-inbox** — AI agent email inbox (Resend). Real-time webhook notifikácie, security validation, content safety. Architektúra: Sender→Resend MX→Webhook→Server→AI Agent.
+
+**resend-templates** — Resend email šablóny. React Email komponenty, template management.
+
+**resend-webhooks** — Resend delivery webhooky (delivered, bounced, complained).
 
 **clerk-webhooks** — Clerk auth webhooky. User created/updated/deleted, session events.
 
