@@ -1,0 +1,30 @@
+# Credentials & sensitive
+.credentials.json
+*.json.backup*
+settings.json
+settings.local.json
+
+# Runtime / cache
+debug/
+file-history/
+backups/
+cache/
+downloads/
+shell-snapshots/
+statsig/
+telemetry/
+tasks/
+todos/
+plans/
+plugins/
+projects/
+
+# Large binaries
+*.ttf
+*.otf
+*.woff
+*.woff2
+*.tar.gz
+*.zip
+*.db
+*.sqlite
