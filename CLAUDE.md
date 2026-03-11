@@ -65,7 +65,9 @@ bash ~/.claude/skills/artifacts-builder/scripts/init-artifact.sh <nazov>
 
 **pptx** — PowerPoint prezentácie: tvorba, editácia, layouts, speaker notes
 
-**pwa** — Progressive Web App pre Vite+React stack. `vite-plugin-pwa` + Workbox. Inštalácia na plochu, offline mode, push notifikácie (iOS Safari 16.4+). Pre e-shopy → lepšie ako App Store (žiadny 30% cut). Kompletný guide + Workbox stratégie v SKILL.md
+**pwa** — Progressive Web App pre Vite+React stack. `vite-plugin-pwa` + Workbox + **PWABuilder** (Microsoft). Deploy PWA → pwabuilder.com → Google Play (TWA) + iOS App Store (WKWebView) + Windows Store. Updates automatické cez web server. Kompletný guide v SKILL.md
+
+**capacitor-plugins** — Katalóg 80+ Capgo Capacitor pluginov. Použiť keď PWA nestačí a treba natívne API. Pokrýva: biometria, camera, platby (Apple/Google Pay, IAP), BLE, NFC, HealthKit, live updates (OTA), social login, sensors, SQLite, background geolocation, speech, LLM on-device, Apple Watch, a ďalšie.
 
 ### Agents
 Dostupné v `~/.claude/agents/` — volaj ich cez Agent tool:
