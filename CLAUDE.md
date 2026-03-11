@@ -67,6 +67,24 @@ bash ~/.claude/skills/artifacts-builder/scripts/init-artifact.sh <nazov>
 
 **pwa** — Progressive Web App pre Vite+React stack. `vite-plugin-pwa` + Workbox + **PWABuilder** (Microsoft). Deploy PWA → pwabuilder.com → Google Play (TWA) + iOS App Store (WKWebView) + Windows Store. Updates automatické cez web server. Kompletný guide v SKILL.md
 
+**webhook-handler-patterns** — Production webhook best practices (Hookdeck). Verify → Parse → Handle idempotently. Response kódy, retry logic, idempotency checklist, framework guides (Express, Next.js, FastAPI). Použi pri každom webhook handleri.
+
+**stripe-webhooks** — Stripe webhook handler. Signature verification (raw body!), event types (payment_intent.succeeded, subscription, invoice), Express + Next.js + FastAPI príklady.
+
+**resend-webhooks** — Resend email webhooky. Email delivery events (delivered, bounced, complained).
+
+**clerk-webhooks** — Clerk auth webhooky. User created/updated/deleted, session events.
+
+**shopify-webhooks** — Shopify e-commerce webhooky. Orders, products, customers, inventory.
+
+**paddle-webhooks** — Paddle billing webhooky (alternatíva k Stripe, zabudovaný daňový systém).
+
+**github-webhooks** — GitHub repo webhooky. Push, PR, issues, CI/CD triggers.
+
+**vercel-webhooks** — Vercel deployment webhooky. Deploy started/ready/error events.
+
+**openai-webhooks** — OpenAI async webhooky. Batch API, fine-tuning job completion.
+
 **supabase-postgres-best-practices** — Supabase/Postgres best practices (v1.1.0, jan 2026). 35 pravidiel v 8 kategóriách: query performance (indexy, N+1, pagination), connection pooling, RLS security, schema design, locking, monitoring (EXPLAIN ANALYZE, pg_stat_statements). Použi pri každom Supabase/Postgres kóde automaticky.
 
 **capacitor-plugins** — Katalóg 80+ Capgo Capacitor pluginov. Použiť keď PWA nestačí a treba natívne API. Pokrýva: biometria, camera, platby (Apple/Google Pay, IAP), BLE, NFC, HealthKit, live updates (OTA), social login, sensors, SQLite, background geolocation, speech, LLM on-device, Apple Watch, a ďalšie.
