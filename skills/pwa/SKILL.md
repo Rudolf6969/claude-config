@@ -1,22 +1,21 @@
-# PWA Skill — Progressive Web App (Vite + React)
+# PWA Skill — Progressive Web App (Vite + React + PWABuilder)
 
-## Stav v 2025: STÁLE RELEVANTNÉ
+## Stav v 2025: STÁLE RELEVANTNÉ A SILNÉ
 
-PWA nie je zastarané. Je aktívne používané v produkcii:
-- **Twitter/X, Pinterest, Starbucks, Uber, Spotify** — všetci majú PWA
-- iOS Safari 16.4+ (2023) konečne pridalo push notifikácie — hlavný blocker bol odblokovaný
-- Chrome, Edge, Firefox — plná podpora
-- Google Play Store akceptuje PWA cez TWA (Trusted Web Activity)
+PWA nie je zastarané. iOS Safari 16.4+ (2023) odblokoval push notifikácie.
+**PWABuilder** (Microsoft, free) dokáže akékoľvek deploynuté PWA zbaliť do:
+- Google Play Store (Android TWA — natívne Chrome rendrovanie)
+- iOS App Store (WKWebView + Xcode projekt)
+- Windows Store
 
-**Výhoda vs natívna app**: žiadny App Store approval, okamžitý update, jeden codebase.
-**Výhoda vs Capacitor**: žiadny build pipeline, žiadne certifikáty, 0 overhead.
+**Workflow**: Build PWA → Deploy → pwabuilder.com → Store packages. Žiadny Capacitor, žiadne React Native.
 
 ---
 
-## Stack pre React + Vite
+## Krok 1: Vite + React → PWA
 
 ```bash
-pnpm add -D vite-plugin-pwa workbox-window
+pnpm add -D vite-plugin-pwa
 ```
 
 ### vite.config.ts
@@ -29,7 +28,7 @@ export default defineConfig({
     react(),
     VitePWA({
       registerType: 'autoUpdate',
-      includeAssets: ['favicon.ico', 'apple-touch-icon.png', 'icon-*.png'],
+      includeAssets: ['favicon.ico', 'apple-touch-icon.png'],
       manifest: {
         name: 'Veiny Galaxy',
         short_name: 'VG Shop',
@@ -42,18 +41,18 @@ export default defineConfig({
         icons: [
           { src: 'icon-192.png', sizes: '192x192', type: 'image/png' },
           { src: 'icon-512.png', sizes: '512x512', type: 'image/png' },
-          { src: 'icon-512.png', sizes: '512x512', type: 'image/png', purpose: 'any maskable' }
+          { src: 'icon-512.png', sizes: '512x512', type: 'image/png', purpose: 'maskable' }
         ]
       },
       workbox: {
         globPatterns: ['**/*.{js,css,html,ico,png,svg,woff2}'],
         runtimeCaching: [
           {
-            urlPattern: /^https:\/\/.*\.b-cdn\.net\/.*/i,  // Bunny CDN images
+            urlPattern: /^https:\/\/.*\.b-cdn\.net\/.*/i,  // Bunny CDN
             handler: 'CacheFirst',
             options: {
               cacheName: 'cdn-images',
-              expiration: { maxEntries: 100, maxAgeSeconds: 60 * 60 * 24 * 30 }
+              expiration: { maxEntries: 200, maxAgeSeconds: 60 * 60 * 24 * 30 }
             }
           }
         ]
@@ -63,49 +62,97 @@ export default defineConfig({
 })
 ```
 
----
-
-## Čo PWA robí
-
-| Feature | iOS Safari 16.4+ | Chrome/Android |
-|---------|-----------------|----------------|
-| Inštalácia na plochu | ✅ | ✅ |
-| Offline mode | ✅ | ✅ |
-| Push notifikácie | ✅ (16.4+) | ✅ |
-| Splash screen | ✅ | ✅ |
-| Fullscreen / standalone | ✅ | ✅ |
-| App Store (TWA) | ❌ (App Store) | ✅ Google Play |
-| Background sync | ⚠️ limitované | ✅ |
-
----
-
-## Ikony — rýchla generácia
+### Ikony (potrebuješ len jeden 512x512 PNG)
 
 ```bash
-# Potrebuješ len jeden 512x512 PNG, zvyšok vygeneruje:
-pnpm dlx pwa-asset-generator logo.png public/icons --manifest public/manifest.json
+pnpm dlx pwa-asset-generator logo.png public/icons
+# alebo online: realfavicongenerator.net
 ```
 
-Alebo online: **realfavicongenerator.net** → generuje všetky veľkosti.
+Potrebné veľkosti: 192×192, 512×512, 180×180 (apple-touch-icon)
+
+---
+
+## Krok 2: Deploy (Vercel)
+
+```bash
+bash ~/.claude/skills/deploy-to-vercel/resources/deploy.sh
+```
+
+PWA musí byť na HTTPS — Vercel to má automaticky.
+
+---
+
+## Krok 3: PWABuilder → App Store packages
+
+**pwabuilder.com** (Microsoft, free, open source)
+
+1. Zadaj URL svojho deploynutého PWA
+2. PWABuilder analyzuje manifest + service worker (skóre 0-100)
+3. Klikni "Package for Stores" → vyber platformu:
+   - **Android** → TWA (Trusted Web Activity) = APK pre Google Play
+   - **iOS** → WKWebView + Xcode projekt (potrebný Mac)
+   - **Windows** → MSIX pre Windows Store
+4. Download ZIP s app package
+
+### Android (TWA) — najjednoduchší
+
+- Trusted Web Activity = tvoj PWA beží v natívnom Chrome (nie webview)
+- URL bar zmizne → vyzerá ako natívna app
+- Push notifikácie bez browser promptu ak povolíš v PWABuilder options
+- Signing: vyber "None" = Google Play podpíše sám (odporúčané)
+- Google Play: $25 one-time fee
+
+### iOS (WKWebView) — potrebuješ Mac alebo GitHub Actions
+
+- WKWebView + Swift wrapper → natívna App Store app
+- Service workers fungujú cez App-Bound Domains (iOS 14+)
+- Automatická detekcia: `document.cookie` obsahuje `app-platform=iOS App Store`
+- Bez Macu: GitHub Actions s Xcode Archive / Macincloud.com (remote Mac)
+- Apple Developer: $99/rok
+- ⚠️ Apple môže odmietnuť ak app "vyzerá len ako web" — pridaj real value
+
+### Updates = automatické
+
+Zmena v kóde → `git push` → Vercel deploy → **všetky store apky sa updatujú automaticky**.
+App Store resubmission len ak meníš natívnu vrstvu (Xcode projekt).
+
+---
+
+## PWABuilder CLI (pre nové projekty)
+
+```bash
+npm install -g @pwabuilder/cli
+
+pwa create my-app          # vytvorí PWA projekt
+pwa create my-app -t basic # minimalistická verzia
+pwa start                  # dev server
+pwa build                  # produkčný build
+```
+
+Templates: `default` (Lit + Vite), `basic` (vanilla), `whisper` (+ AI/Transformers.js)
 
 ---
 
 ## Install prompt (vlastný UI)
 
 ```typescript
-// hook: usePWAInstall.ts
+// hooks/usePWAInstall.ts
 import { useEffect, useState } from 'react'
 
 export function usePWAInstall() {
   const [prompt, setPrompt] = useState<BeforeInstallPromptEvent | null>(null)
+  const [installed, setInstalled] = useState(false)
 
   useEffect(() => {
-    const handler = (e: Event) => {
-      e.preventDefault()
-      setPrompt(e as BeforeInstallPromptEvent)
-    }
+    const handler = (e: Event) => { e.preventDefault(); setPrompt(e as any) }
+    const installed = () => setInstalled(true)
     window.addEventListener('beforeinstallprompt', handler)
-    return () => window.removeEventListener('beforeinstallprompt', handler)
+    window.addEventListener('appinstalled', installed)
+    return () => {
+      window.removeEventListener('beforeinstallprompt', handler)
+      window.removeEventListener('appinstalled', installed)
+    }
   }, [])
 
   const install = async () => {
@@ -115,56 +162,40 @@ export function usePWAInstall() {
     if (outcome === 'accepted') setPrompt(null)
   }
 
-  return { canInstall: !!prompt, install }
+  return { canInstall: !!prompt && !installed, install }
 }
 ```
 
 ---
 
-## PWA vs alternatívy (2025 verdict)
+## Platform support 2025
 
-| Prístup | Kedy použiť |
-|---------|-------------|
-| **PWA** | Web app chceš sprístupniť "ako appku" — rýchle, free, cross-platform |
-| **Capacitor** | Potrebuješ App Store listing, native APIs (kamera, biometria, BLE) |
-| **React Native** | Úplne nový projekt, max native performance, team má RN skúsenosti |
-
-**Pre Veiny Galaxy e-shop → PWA je správna voľba.**
-- Žiadny App Store → žiadne 30% Apple cut
-- Fungiuje na iOS aj Android
-- Deploy = git push, nie App Store review
+| Feature | iOS Safari 16.4+ | Chrome/Android |
+|---------|-----------------|----------------|
+| Inštalácia na plochu | ✅ | ✅ |
+| Offline mode | ✅ | ✅ |
+| Push notifikácie | ✅ | ✅ |
+| Service Workers | ✅ | ✅ |
+| App Store (cez PWABuilder) | ✅ WKWebView | ✅ TWA |
+| Background sync | ⚠️ limitované | ✅ |
 
 ---
 
-## Rýchly start pre vg-shadcn
+## PWA vs alternatívy (2025)
 
-```bash
-# 1. Inštalácia
-pnpm add -D vite-plugin-pwa
+| | PWA + PWABuilder | Capacitor | React Native |
+|--|--|--|--|
+| Jeden codebase | ✅ web + stores | ✅ | ✅ |
+| Update bez Store review | ✅ | ✅ | ⚠️ (JS only) |
+| Native APIs | ⚠️ web APIs only | ✅ plný prístup | ✅ plný prístup |
+| App Store | ✅ cez PWABuilder | ✅ | ✅ |
+| Náročnosť | 🟢 nízka | 🟡 stredná | 🔴 vysoká |
 
-# 2. Ikony do public/
-# icon-192.png + icon-512.png + apple-touch-icon.png (180x180)
-
-# 3. vite.config.ts — pridaj VitePWA() plugin (pozri hore)
-
-# 4. Build
-pnpm build
-
-# 5. Testovanie (Lighthouse → PWA audit)
-pnpm dlx serve dist
-# Chrome DevTools → Application → Manifest + Service Workers
-```
-
----
-
-## Offline stratégie (Workbox)
-
-- **CacheFirst** — statické assets, CDN obrázky (dlhá platnosť)
-- **NetworkFirst** — API volania, dynamický obsah
-- **StaleWhileRevalidate** — semi-dynamické stránky (produktový listing)
+**Pre e-shop (Veiny Galaxy) → PWA + PWABuilder je ideálne.**
 
 ---
 
 ## Referencie
-- `references/vite-pwa-options.md` — kompletné VitePWA options
-- `references/workbox-strategies.md` — Workbox caching stratégie
+- `references/vite-pwa-options.md` — kompletné VitePWA + Workbox options
+- `references/pwabuilder-android.md` — Android TWA options detail
+- `references/pwabuilder-ios.md` — iOS limitations + Mac-free build options
