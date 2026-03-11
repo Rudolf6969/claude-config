@@ -67,6 +67,8 @@ bash ~/.claude/skills/artifacts-builder/scripts/init-artifact.sh <nazov>
 
 **pwa** — Progressive Web App pre Vite+React stack. `vite-plugin-pwa` + Workbox + **PWABuilder** (Microsoft). Deploy PWA → pwabuilder.com → Google Play (TWA) + iOS App Store (WKWebView) + Windows Store. Updates automatické cez web server. Kompletný guide v SKILL.md
 
+**trigger-dev-tasks** — Trigger.dev background jobs (priamo z ich repo). Async tasky, scheduled jobs, subtasks, batch processing (1000 items), debounce, real-time subscriptions, Zod schema validation, idempotency keys, machine presets (micro→large-2x/16GB). Kritické pravidlá: nikdy `Promise.all` s `triggerAndWait`, vždy exportovať tasky, `@trigger.dev/sdk` nie v3. Referencie: basic-tasks, advanced-tasks, scheduled-tasks, realtime, config.
+
 **n8n-workflow-patterns** — 5 core n8n patterns: Webhook Processing, HTTP API Integration, Database Operations, AI Agent Workflow, Scheduled Tasks. Architektúra + pattern selection guide.
 
 **n8n-node-configuration** — Operation-aware node config. Resource+operation určuje required fields. HTTP Request, Slack, Gmail, Postgres, IF, Switch, Loop — všetky node typy.
